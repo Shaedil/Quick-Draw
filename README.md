@@ -32,4 +32,4 @@ A big limitation was the entire size of the electronics. The nerf gun is small. 
 Another limitation was our power source. We've had a bit of trouble deciding on our portable source of power as this was fairly new to us. We eventually decided on a 4.8V AA battery pack, regularly used for an RC car. We hoped this was enough for all the sensors to be powered for at least an hour at 5V.
 
 ## Why?
-I suppose there really is no _concrete_ reason why we did this, we just thought it was really cool to do, especially so because the hackathon was "Wild West" themed and we were inspired by Clint Eastwood films like the Dollars Trilogies, "The Good, The Bad & The Ugly" and "Once Upon A Time in the West".
+I suppose there really is no _concrete_ reason why we did this, we just thought it was really cool to do, especially so because the hackathon was "Wild West" themed and we were inspired by Clint Eastwood films like the Dollars Trilogies, "The Good, The Bad & The Ugly" and "Once Upon A Time in the West". Yippee Ki-Yay!
