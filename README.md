@@ -1,5 +1,6 @@
 # Quick-Draw
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)]()
+
 *Have yourself a high noon standoff right in your own home*
 
 **To be submitted as part of "YeeHaw Hacks" hackathon by MLH**
