@@ -1,16 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	)
+  "log"
+  "net/http"
+)
 
 func main() {
-	http.HandleFunc("/", HelloServer)
-	http.ListenAndServe(":8080",nil)
+  fs := http.FileServer(http.Dir("./static"))
+  http.Handle("/", fs)
 
-	}
-
-func HelloServer(w http.ResponseWriter, r *http.Request){
-	fmt.Fprint(w, "Hello ", r.URL.Path[1:])	
-	}
+  log.Println("Listening on :8080...")
+  err := http.ListenAndServe(":8080", nil)
+  if err != nil {
+    log.Fatal(err)
+  }
+}
