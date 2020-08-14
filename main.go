@@ -3,15 +3,29 @@ package main
 import (
   "log"
   "net/http"
+  "html/template"
+  "os"
 )
 
-func main() {
-  fs := http.FileServer(http.Dir("./static"))
-  http.Handle("/", fs)
+var tpl = template.Must(template.ParseFiles("static/main.html"))
 
-  log.Println("Listening on :8080...")
-  err := http.ListenAndServe(":8080", nil)
-  if err != nil {
-    log.Fatal(err)
-  }
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	tpl.Execute(w, nil)
 }
+
+func main() {
+  port := os.Getenv("PORT")
+  if port == "" {
+		port = "8080"
+	}
+		
+  mux := http.NewServeMux()
+
+  fs := http.FileServer(http.Dir("public"))
+  mux.Handle("/assets/", http.StripPrefix("/public/", fs))
+
+  mux.HandleFunc("/", indexHandler)
+
+  log.Println("Listening on",port)
+  http.ListenAndServe(":"+port, mux)
+ }
