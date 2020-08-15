@@ -33,3 +33,6 @@
 
 main
 .gitignore
+
+# Compiled Sketches
+client/NodeMCU/build
