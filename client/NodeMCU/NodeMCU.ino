@@ -15,6 +15,14 @@ ICACHE_RAM_ATTR void playerReaction()
 }
 
 void handshake() {
+	Serial.print("Connecting to: ");
+	Serial.print(HOST);
+	Serial.print(":");
+	Serial.println(PORT);
+
+	WiFiClient client;
+	Serial.print("Connection status: ");
+	Serial.println(client.connect(HOST, PORT) ? "connnected" : "failed");
 }
 
 void setup()
