@@ -8,13 +8,17 @@ import (
 )
 
 const (
-	packetTypeHello = 0x0
+	packetMagic       = 0xBB
+	packetTypeHello   = 0x0
+	packetTypeReadyUp = 0x1
+	packetTypeFired   = 0x2
 )
 
 var (
 	state struct {
 		sync.Mutex
-		connectionCount uint8
+		connectionCount int
+		firedTimes      *int
 	}
 )
 
@@ -68,18 +72,42 @@ func writePacketHeader(conn net.Conn, header packetHeader) {
 }
 
 func handleConnection(conn net.Conn) {
-	writePacketHeader(conn, packetHeader{
-		Magic:      0xBB,
-		PacketType: packetTypeHello,
-	})
+	state.Lock()
+	if state.connectionCount == 2 {
+		writeErrorToConn(conn, "too many players are on this server! please try again later")
+		return
+	}
+	state.Unlock()
 
 	for {
 		header := readPacketHeader(conn)
+		if header.Magic != packetMagic {
+			writeErrorToConn(conn, "magic is not 0xBB")
+			return
+		}
 
 		switch header.PacketType {
 		case packetTypeHello:
 			state.Lock()
 			state.connectionCount++
+			state.Unlock()
+
+			count := 0
+
+			for count != 2 {
+				state.Lock()
+				count = state.connectionCount
+				state.Unlock()
+			}
+
+			writePacketHeader(conn, packetHeader{
+				Magic:      packetMagic,
+				PacketType: packetTypeReadyUp,
+			})
+
+		case packetTypeFired:
+			state.Lock()
+			//
 			state.Unlock()
 
 		default:
