@@ -39,6 +39,11 @@ void handshake() {
 		client.write(packet.hello);
 		handshakeSent = true;
 	}
+
+	// Check if handshake was successful
+	Serial.print("Handshake: ");
+	while (client.read() != packet.magic);
+	Serial.println(client.read() == packet.hello ? "successful" : "failed");
 }
 
 void setup()
