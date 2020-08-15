@@ -14,36 +14,49 @@ struct communication {
 } packet;
 
 ICACHE_RAM_ATTR void playerReaction();
-void handshake();
+int handshake();
 
 ICACHE_RAM_ATTR void playerReaction()
 {
 	reaction_time = millis() - reaction_time;
 }
 
-void handshake() {
+int handshake() {
 	Serial.print("Connecting to: ");
 	Serial.print(HOST);
 	Serial.print(":");
 	Serial.println(PORT);
 
 	WiFiClient client;
-	Serial.print("Connection status: ");
-	Serial.println(client.connect(HOST, PORT) ? "connnected" : "failed");
+	Serial.print("Connection state: ");
+	if (client.connect(HOST, PORT)) {
+		Serial.println("connected");
+	} else {
+		Serial.println("failed");
+		goto error;
+	}
 
 	// Send handshake to server
-	bool handshakeSent = false;
 	if (client.connected()) {
-		Serial.println("Sending handshake");
+		Serial.println("Sending: handshake");
 		client.write(packet.magic);
 		client.write(packet.hello);
-		handshakeSent = true;
 	}
 
 	// Check if handshake was successful
 	Serial.print("Handshake: ");
 	while (client.read() != packet.magic);
-	Serial.println(client.read() == packet.hello ? "successful" : "failed");
+	if (client.read() == packet.hello) {
+		Serial.println("successful");
+	} else {
+		Serial.println("failed");
+		goto error;
+	}
+
+	return 1;
+
+error:
+	return 0;
 }
 
 void setup()
