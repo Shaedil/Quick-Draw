@@ -1,3 +1,5 @@
+#include "connection.h"
+
 #define PUSHBUTTON D1
 const byte RGB[] = { D5, D6, D8, };
 
