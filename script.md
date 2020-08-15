@@ -20,7 +20,7 @@ No ma'am, now we cowfolk are confined to our homes by this fancy fangled COVID-1
 
 Interducin' the mighty new Quick Draw technology! Ya ever had a shootout in your living room partner?! Yeehaw!
 
-Powered by Arduino technology and a Go webserver, I'm able to fire my gun in my underwear, ping a third party server to determine who fired first, and suffer the consequences, like any proud red-blooded american should
+Powered by Arduino technology and a Go webserver, I'm able to fire my gun in my underwear, ping a server to determine who fired first, and suffer the consequences, like any proud red-blooded American should
 
 But don't squat on your spurs partner! Any good cowboy knows not to ask a barber if ya need a haircut, so take a look at our 100% gen-you-ine reviews 
 
