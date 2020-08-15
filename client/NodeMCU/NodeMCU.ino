@@ -11,6 +11,7 @@ struct communication {
 	const byte hello   = 0x00;
 	const byte readyUp = 0x01;
 	const byte fired   = 0x02;
+	const byte result  = 0x03;
 } packet;
 
 ICACHE_RAM_ATTR void playerReaction();
