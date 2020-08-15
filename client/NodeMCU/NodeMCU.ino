@@ -5,7 +5,6 @@
 const byte RGB[] = { D5, D6, D8, };
 
 WiFiClient client;
-volatile unsigned long reaction_time = 0;
 
 struct communication {
 	const byte magic   = 0xBB;
@@ -15,13 +14,14 @@ struct communication {
 	const byte result  = 0x03;
 } packet;
 
-ICACHE_RAM_ATTR void playerReaction();
+ICACHE_RAM_ATTR void playerShoot();
 void connect2AP();
 int handshake();
 
-ICACHE_RAM_ATTR void playerReaction()
+ICACHE_RAM_ATTR void playerShoot()
 {
-	reaction_time = millis() - reaction_time;
+	client.write(packet.magic);
+	client.write(packet.fired);
 }
 
 void connect2AP() {
@@ -110,7 +110,7 @@ void setup()
 	Serial.flush();
 	Serial.begin(9600);
 
-	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerReaction, RISING);
+	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerShoot, RISING);
 
 	connect2AP();          // Connect to specified access point
 	while (!handshake());  // Try to handshake with game server
