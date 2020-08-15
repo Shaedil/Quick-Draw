@@ -111,7 +111,8 @@ void setup()
 
 	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerReaction, RISING);
 
-	connect2AP();  // Connect to specified access point
+	connect2AP();          // Connect to specified access point
+	while (!handshake());  // Try to handshake with game server
 }
 
 void loop()
