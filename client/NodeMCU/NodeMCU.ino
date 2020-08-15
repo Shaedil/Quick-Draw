@@ -3,10 +3,13 @@
 #define PUSHBUTTON D1
 const byte RGB[] = { D5, D6, D8, };
 
+volatile unsigned long reaction_time = 0;
+
 ICACHE_RAM_ATTR void playerReaction();
 
 ICACHE_RAM_ATTR void playerReaction()
 {
+	reaction_time = millis() - reaction_time;
 }
 
 void setup()
