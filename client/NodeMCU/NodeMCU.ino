@@ -7,10 +7,10 @@ const byte RGB[] = { D5, D6, D8, };
 volatile unsigned long reaction_time = 0;
 
 struct communication {
-	const unsigned int magic   = 0xBB;
-	const unsigned int hello   = 0x00;
-	const unsigned int readyUp = 0x01;
-	const unsigned int fired   = 0x02;
+	const byte magic   = 0xBB;
+	const byte hello   = 0x00;
+	const byte readyUp = 0x01;
+	const byte fired   = 0x02;
 } packet;
 
 ICACHE_RAM_ATTR void playerReaction();
