@@ -4,6 +4,7 @@
 #define PUSHBUTTON D1
 const byte RGB[] = { D5, D6, D8, };
 
+WiFiClient client;
 volatile unsigned long reaction_time = 0;
 
 struct communication {
@@ -67,7 +68,6 @@ int handshake() {
 	Serial.print(":");
 	Serial.println(PORT);
 
-	WiFiClient client;
 	Serial.print("Connection state: ");
 	if (client.connect(HOST, PORT)) {
 		Serial.println("connected");
