@@ -11,13 +11,23 @@ western music
 
 
 Zoom out from showdown
-NARRATOR: Wow! This really is the duel of the century! With arduino powered nerf guns, they're able to have a fatal shootout right from their own home! Yeehaw!
 
-Utilizing a Go powered web server, the guns communicate through pinging the server and determining who shot first!
+if you're like me and took a liken to the life of a cowboy like a horse takes a liken to oats, you need to keep up with these modern times.
+
+It simply ain't like it was back in the good ole days, where saloons and shootouts was common.
+
+No ma'am, now we cowfolk are confined to our homes by this fancy fangled COVID-1819
+
+Interducin' the mighty new Quick Draw technology! Ya ever had a shootout in your living room partner?! Yeehaw!
+
+Powered by Arduino technology and a Go webserver, I'm able to fire my gun in my underwear, ping a third party server to determine who fired first, and suffer the consequences, like any proud red-blooded american should
+
+But don't squat on your spurs partner! Any good cowboy knows not to ask a barber if ya need a haircut, so take a look at our 100% gen-you-ine reviews 
+
+_theyre all 5 stars ;)_
 
 BANG
 AND COWBOY1 HAS FALLEN!
 
-There we have it ladies and gentlemen!
-As you can see we are all at the mercy of _the luck of the draw_
+Now that's _the luck of the draw_
 
