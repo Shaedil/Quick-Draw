@@ -1,5 +1,11 @@
-#define PUSHBUTTON D0
+#define PUSHBUTTON D1
 const byte RGB[] = { D5, D6, D8, };
+
+ICACHE_RAM_ATTR void playerReaction();
+
+ICACHE_RAM_ATTR void playerReaction()
+{
+}
 
 void setup()
 {
@@ -12,6 +18,7 @@ void setup()
 	Serial.flush();
 	Serial.begin(9600);
 
+	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerReaction, RISING);
 }
 
 void loop()
