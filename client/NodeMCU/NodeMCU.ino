@@ -17,6 +17,7 @@ struct communication {
 ICACHE_RAM_ATTR void playerShoot();
 void connect2AP();
 int handshake();
+void readyUp();
 
 ICACHE_RAM_ATTR void playerShoot()
 {
@@ -99,6 +100,37 @@ error:
 	return 0;
 }
 
+void readyUp() {
+	while (client.read() != packet.magic);
+	if (client.read() == packet.readyUp) {
+		// Hamilton Easter egg :3
+		Serial.println("Summon all the courage you require");
+		Serial.println("Then count");
+		Serial.println("one");
+		delay(1000);
+		Serial.println("two");
+		delay(1000);
+		Serial.println("three");
+		delay(1000);
+		Serial.println("four");
+		delay(1000);
+		Serial.println("five");
+		delay(1000);
+		Serial.println("six");
+		delay(1000);
+		Serial.println("seven");
+		delay(1000);
+		Serial.println("eight");
+		delay(1000);
+		Serial.println("nine");
+		delay(1000);
+		Serial.println("Number");
+		Serial.println("Ten paces!");
+		delay(1000);
+		Serial.println("Fire!");
+	}
+}
+
 void setup()
 {
 	pinMode(PUSHBUTTON, INPUT);
@@ -118,4 +150,5 @@ void setup()
 
 void loop()
 {
+	readyUp(); // Wait for opponent to connect to server
 }
