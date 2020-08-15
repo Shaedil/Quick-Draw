@@ -30,6 +30,15 @@ void handshake() {
 	WiFiClient client;
 	Serial.print("Connection status: ");
 	Serial.println(client.connect(HOST, PORT) ? "connnected" : "failed");
+
+	// Send handshake to server
+	bool handshakeSent = false;
+	if (client.connected()) {
+		Serial.println("Sending handshake");
+		client.write(packet.magic);
+		client.write(packet.hello);
+		handshakeSent = true;
+	}
 }
 
 void setup()
