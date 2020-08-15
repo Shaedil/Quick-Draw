@@ -11,10 +11,10 @@ We hacked a nerf gun to "shoot" information to a web server, containing the gun'
 If we have two of these guns... well, we have ourselves a showdown!
 
 ### TODO:
-- [ ] MPU9250 sensor (for one gun) works and outputs orientation of sensor
-- [ ] Check if 4.8V AA battery powers Arduino Nano AND other components (for one gun)
-- [ ] Check if pushbutton works and lights up an LED
-- [ ] Check if WiFi module works by uploading onboard-LED blink sketch
+- [X] MPU9250 sensor (for one gun) works and outputs orientation of sensor
+- [X] Check if 4.8V AA battery powers Arduino Nano AND other components (for one gun)
+- [X] Check if pushbutton works and lights up an LED. Works sometimes, maybe the connections was insecure...
+- [X] Check if WiFi module works by uploading onboard-LED blink sketch
 - [ ] Check if WiFi module works by sending request to server
 - [ ] Set up PHP server via youtube video
 - [ ] WiFi module sends a request to a server and persistently logs it via PHP
