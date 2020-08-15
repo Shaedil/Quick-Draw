@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"encoding/binary"
 	"fmt"
 	"net"
+	"os"
 	"sync"
 )
 
@@ -12,13 +14,14 @@ const (
 	packetTypeHello   = 0x0
 	packetTypeReadyUp = 0x1
 	packetTypeFired   = 0x2
+	packetTypeResults = 0x3
 )
 
 var (
 	state struct {
 		sync.Mutex
 		connectionCount int
-		firedTimes      *int
+		fired           *int
 	}
 )
 
@@ -28,20 +31,70 @@ type packetHeader struct {
 }
 
 func main() {
-	ln, err := net.Listen("tcp", listenAddress)
-	if err != nil {
-		panic(err)
-	}
+	if len(os.Args) == 2 && os.Args[1] == "client" {
+		conn, err := net.Dial("tcp", "127.0.0.1"+listenAddress)
+		if err != nil {
+			panic(err)
+		}
+		defer conn.Close()
 
-	fmt.Printf("up at %s\n", listenAddress)
+		writePacketHeader(conn, packetHeader{
+			Magic:      packetMagic,
+			PacketType: packetTypeHello,
+		})
 
-	for {
-		conn, err := ln.Accept()
+		header := readPacketHeader(conn)
+
+		if header.Magic != packetMagic || header.PacketType != packetTypeHello {
+			return
+		}
+
+		fmt.Printf("handshake successful\n")
+
+		header = readPacketHeader(conn)
+
+		if header.Magic != packetMagic || header.PacketType != packetTypeReadyUp {
+			return
+		}
+
+		fmt.Printf("ready up uwu\npress enter to fire\n")
+
+		bufio.NewScanner(os.Stdin).Scan()
+
+		writePacketHeader(conn, packetHeader{
+			Magic:      packetMagic,
+			PacketType: packetTypeFired,
+		})
+
+		header = readPacketHeader(conn)
+
+		if header.Magic != packetMagic || header.PacketType != packetTypeResults {
+			return
+		}
+
+		result := read(conn, 1)
+
+		if result[0] == 1 {
+			fmt.Printf("you won!\n")
+		} else {
+			fmt.Printf("you lost!\n")
+		}
+	} else {
+		ln, err := net.Listen("tcp", listenAddress)
 		if err != nil {
 			panic(err)
 		}
 
-		go handleConnection(conn)
+		fmt.Printf("up at %s\n", listenAddress)
+
+		for {
+			conn, err := ln.Accept()
+			if err != nil {
+				panic(err)
+			}
+
+			go handleConnection(conn)
+		}
 	}
 }
 
@@ -72,6 +125,8 @@ func writePacketHeader(conn net.Conn, header packetHeader) {
 }
 
 func handleConnection(conn net.Conn) {
+	fmt.Printf("got connection with address %s\n", conn.RemoteAddr().String())
+
 	state.Lock()
 	if state.connectionCount == 2 {
 		writeErrorToConn(conn, "too many players are on this server! please try again later")
@@ -92,6 +147,11 @@ func handleConnection(conn net.Conn) {
 			state.connectionCount++
 			state.Unlock()
 
+			writePacketHeader(conn, packetHeader{
+				Magic:      packetMagic,
+				PacketType: packetTypeHello,
+			})
+
 			count := 0
 
 			for count != 2 {
@@ -107,7 +167,20 @@ func handleConnection(conn net.Conn) {
 
 		case packetTypeFired:
 			state.Lock()
-			//
+
+			writePacketHeader(conn, packetHeader{
+				Magic:      packetMagic,
+				PacketType: packetTypeResults,
+			})
+
+			if state.fired == nil {
+				conn.Write([]byte{1})
+				x := 1
+				state.fired = &x
+			} else {
+				conn.Write([]byte{0})
+			}
+
 			state.Unlock()
 
 		default:
