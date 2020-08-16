@@ -12,6 +12,7 @@ struct communication {
 	const byte readyUp = 0x01;
 	const byte fired   = 0x02;
 	const byte result  = 0x03;
+	const byte ffs     = 0xCA;
 } packet;
 
 volatile bool canShoot = false;
@@ -145,6 +146,8 @@ void duel()
 	while (client.read() != packet.magic);
 	if (client.read() == packet.result) {
 		Serial.print("The results are in: ");
+
+		while (client.read() != packet.ffs);
 		Serial.println(client.read() ? "you won!" : "you lost!");
 	}
 }
