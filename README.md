@@ -64,3 +64,32 @@ Sure is a shame they're outlawed... unless?
 * Arduino CLI
 * Make
 * BASH (for automating installing NodeMCU cores)
+
+---
+
+```bash
+# Building & running the server
+###############################
+
+cd server
+go build
+
+# Make sure to port forward port 1337
+# before running the server
+
+./qd-server
+
+
+# Compiling and flashing the NodeMCU
+####################################
+
+cd client
+chmod +x prepare.sh
+./prepare.sh
+
+# Edit NodeMCU/connection.h and set the
+# variables to meet your connection needs
+
+# Set PORT to the port of your NodeMCU
+make PORT=/dev/ttyUSBX flash
+```
