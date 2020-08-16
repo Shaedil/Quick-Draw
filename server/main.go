@@ -174,10 +174,10 @@ func handleConnection(conn net.Conn) {
 			})
 
 			if state.fired == 0 {
-				conn.Write([]byte{1})
+				conn.Write([]byte{0xCA, 1})
 				state.fired = 1
 			} else {
-				conn.Write([]byte{0})
+				conn.Write([]byte{0xCA, 0})
 			}
 
 			state.Unlock()
