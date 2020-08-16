@@ -93,3 +93,7 @@ chmod +x prepare.sh
 # Set PORT to the port of your NodeMCU
 make PORT=/dev/ttyUSBX flash
 ```
+
+<div align="center">
+	<img src="https://i.imgur.com/oKokoPz.png">
+</div>
