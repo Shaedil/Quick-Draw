@@ -2,31 +2,38 @@
 #include <ESP8266WiFi.h>
 
 #define PUSHBUTTON D1
-const byte RGB[] = { D5, D6, D8, };
+const byte RGB[] = { D5, D6, D8 };
 
-volatile unsigned long reaction_time = 0;
+WiFiClient client;
 
-ICACHE_RAM_ATTR void playerReaction();
+struct communication {
+	const byte magic   = 0xBB;
+	const byte hello   = 0x00;
+	const byte readyUp = 0x01;
+	const byte fired   = 0x02;
+	const byte result  = 0x03;
+	const byte ffs     = 0xCA;
+} packet;
 
-ICACHE_RAM_ATTR void playerReaction()
+volatile bool canShoot = false;
+
+ICACHE_RAM_ATTR void playerShoot();
+void connect2AP();
+int handshake();
+void readyUp();
+void duel();
+
+ICACHE_RAM_ATTR void playerShoot()
 {
-	reaction_time = millis() - reaction_time;
+	if (canShoot) {
+		Serial.println("CLICK BOOM!");
+		client.write(packet.magic);
+		client.write(packet.fired);
+		canShoot = false;
+	}
 }
 
-void setup()
-{
-	pinMode(PUSHBUTTON, INPUT);
-
-	for (byte i = 0; i < sizeof(RGB) / sizeof(byte); i++) {
-		pinMode(RGB[i], OUTPUT);
-	}
-
-	Serial.flush();
-	Serial.begin(9600);
-
-	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerReaction, RISING);
-
-	// Connect to WiFi
+void connect2AP() {
 	unsigned long connection_start = millis();
 	WiFi.begin(SSID, PASSWORD);
 
@@ -64,6 +71,112 @@ void setup()
 	Serial.println(WiFi.localIP());
 }
 
+int handshake() {
+	Serial.print("Connecting to: ");
+	Serial.print(HOST);
+	Serial.print(":");
+	Serial.println(PORT);
+
+	Serial.print("Connection result: ");
+	if (client.connect(HOST, PORT)) {
+		Serial.println("successful");
+	} else {
+		Serial.println("failed");
+		goto error;
+	}
+
+	// Send handshake to server
+	if (client.connected()) {
+		Serial.println("Sending: handshake");
+		client.write(packet.magic);
+		client.write(packet.hello);
+	}
+
+	// Check if handshake was successful
+	Serial.print("Handshake result: ");
+	while (client.read() != packet.magic);
+	if (client.read() == packet.hello) {
+		Serial.println("successful");
+	} else {
+		Serial.println("failed");
+		goto error;
+	}
+
+	return 1;
+
+error:
+	return 0;
+}
+
+void readyUp() {
+	while (client.read() != packet.magic);
+	if (client.read() == packet.readyUp) {
+		// Hamilton Easter egg :3
+		Serial.println("\nSummon all the courage you require");
+		Serial.println("Then count");
+		delay(1000);
+		Serial.println("one");
+		delay(1000);
+		Serial.println("two");
+		delay(1000);
+		Serial.println("three");
+		delay(1000);
+		Serial.println("four");
+		delay(1000);
+		Serial.println("five");
+		delay(1000);
+		Serial.println("six");
+		delay(1000);
+		Serial.println("seven");
+		delay(1000);
+		Serial.println("eight");
+		delay(1000);
+		Serial.println("nine");
+		delay(1000);
+		Serial.println("Number");
+		Serial.println("Ten paces!");
+		Serial.println("\nFire!");
+
+		canShoot = true;
+
+		// Light up LED when you can shoot
+		for (byte i = 0; i < sizeof(RGB) / sizeof(byte); i++) {
+			digitalWrite(RGB[i], HIGH);
+		}
+	}
+}
+
+void duel()
+{
+	while (client.read() != packet.magic);
+
+	if (client.read() == packet.result) {
+		Serial.print("The results are in and: ");
+
+		while (client.read() != packet.ffs);
+		Serial.println(client.read() ? "you're a felon!" : "you're dead!");
+	}
+}
+
+void setup()
+{
+	pinMode(PUSHBUTTON, INPUT);
+
+	for (byte i = 0; i < sizeof(RGB) / sizeof(byte); i++) {
+		pinMode(RGB[i], OUTPUT);
+	}
+
+	Serial.flush();
+	Serial.begin(9600);
+
+	attachInterrupt(digitalPinToInterrupt(PUSHBUTTON), playerShoot, RISING);
+
+	connect2AP();          // Connect to specified access point
+	while (!handshake());  // Try to handshake with game server
+}
+
 void loop()
 {
+	readyUp();  // Wait for opponent to connect to server
+	duel();     // Get the results
 }

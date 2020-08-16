@@ -5,5 +5,7 @@
 
 const char *SSID = "";
 const char *PASSWORD = "";
+const char *HOST = "";
+const int PORT = 0;
 
 #endif
