@@ -12,3 +12,36 @@
 
 Now, who doesn't love them a good ol' fashioned duel!
 Sure is a shame they're outlawed... unless?
+
+### Execution
+
+```
++---------------------------+
+|Server waits for connection|    Establish TCP connection with server
++-+-------------------------+
+  |
+  |
+  v
++-+---------------------+
+|Client-Server handshake|        Complete handshake to check
+|   (for each client)   |        if communication is working
++-+---------------------+
+  |
+  |
+  v
++-+--------------+
+|Countdown begins|               The duel will commence after we count to ten
++-+--------------+
+  |
+  |
+  v
++-+-----------+
+|Clients shoot|                  Server recieves packets and determines winner
++-+-----------+
+  |
+  |
+  v
++-+----------------------+
+|Server broadcasts winner|       Send client unique packet with win/loss
++------------------------+
+```
