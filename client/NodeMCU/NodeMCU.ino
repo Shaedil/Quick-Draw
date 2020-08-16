@@ -33,7 +33,8 @@ ICACHE_RAM_ATTR void playerShoot()
 	}
 }
 
-void connect2AP() {
+void connect2AP()
+{
 	unsigned long connection_start = millis();
 	WiFi.begin(SSID, PASSWORD);
 
@@ -71,7 +72,8 @@ void connect2AP() {
 	Serial.println(WiFi.localIP());
 }
 
-int handshake() {
+int handshake()
+{
 	Serial.print("Connecting to: ");
 	Serial.print(HOST);
 	Serial.print(":");
@@ -108,7 +110,8 @@ error:
 	return 0;
 }
 
-void readyUp() {
+void readyUp()
+{
 	while (client.read() != packet.magic);
 	if (client.read() == packet.readyUp) {
 		// Hamilton Easter egg :3
