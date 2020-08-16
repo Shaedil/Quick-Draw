@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 
 #define PUSHBUTTON D1
-const byte RGB[] = { D5, D6, D8, };
+const byte RGB[] = { D5, D6, D8 };
 
 WiFiClient client;
 
@@ -26,7 +26,7 @@ void duel();
 ICACHE_RAM_ATTR void playerShoot()
 {
 	if (canShoot) {
-		Serial.println("You have shot!");
+		Serial.println("CLICK BOOM!");
 		client.write(packet.magic);
 		client.write(packet.fired);
 		canShoot = false;
@@ -77,9 +77,9 @@ int handshake() {
 	Serial.print(":");
 	Serial.println(PORT);
 
-	Serial.print("Connection state: ");
+	Serial.print("Connection result: ");
 	if (client.connect(HOST, PORT)) {
-		Serial.println("connected");
+		Serial.println("successful");
 	} else {
 		Serial.println("failed");
 		goto error;
@@ -93,7 +93,7 @@ int handshake() {
 	}
 
 	// Check if handshake was successful
-	Serial.print("Handshake: ");
+	Serial.print("Handshake result: ");
 	while (client.read() != packet.magic);
 	if (client.read() == packet.hello) {
 		Serial.println("successful");
@@ -112,8 +112,9 @@ void readyUp() {
 	while (client.read() != packet.magic);
 	if (client.read() == packet.readyUp) {
 		// Hamilton Easter egg :3
-		Serial.println("Summon all the courage you require");
+		Serial.println("\nSummon all the courage you require");
 		Serial.println("Then count");
+		delay(1000);
 		Serial.println("one");
 		delay(1000);
 		Serial.println("two");
@@ -134,8 +135,7 @@ void readyUp() {
 		delay(1000);
 		Serial.println("Number");
 		Serial.println("Ten paces!");
-		delay(1000);
-		Serial.println("Fire!");
+		Serial.println("\nFire!");
 
 		canShoot = true;
 	}
@@ -144,11 +144,12 @@ void readyUp() {
 void duel()
 {
 	while (client.read() != packet.magic);
+
 	if (client.read() == packet.result) {
-		Serial.print("The results are in: ");
+		Serial.print("The results are in and: ");
 
 		while (client.read() != packet.ffs);
-		Serial.println(client.read() ? "you won!" : "you lost!");
+		Serial.println(client.read() ? "you're a felon!" : "you're dead!");
 	}
 }
 
@@ -171,6 +172,6 @@ void setup()
 
 void loop()
 {
-	readyUp(); // Wait for opponent to connect to server
-	duel();
+	readyUp();  // Wait for opponent to connect to server
+	duel();     // Get the results
 }
