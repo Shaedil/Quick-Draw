@@ -138,6 +138,11 @@ void readyUp() {
 		Serial.println("\nFire!");
 
 		canShoot = true;
+
+		// Light up LED when you can shoot
+		for (byte i = 0; i < sizeof(RGB) / sizeof(byte); i++) {
+			digitalWrite(RGB[i], HIGH);
+		}
 	}
 }
 
