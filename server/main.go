@@ -21,7 +21,7 @@ var (
 	state struct {
 		sync.Mutex
 		connectionCount int
-		fired           *int
+		fired           int
 	}
 )
 
@@ -173,10 +173,9 @@ func handleConnection(conn net.Conn) {
 				PacketType: packetTypeResults,
 			})
 
-			if state.fired == nil {
+			if state.fired == 0 {
 				conn.Write([]byte{1})
-				x := 1
-				state.fired = &x
+				state.fired = 1
 			} else {
 				conn.Write([]byte{0})
 			}
