@@ -45,3 +45,22 @@ Sure is a shame they're outlawed... unless?
 |Server broadcasts winner|       Send client unique packet with win/loss
 +------------------------+
 ```
+
+### Do It Yourself
+
+#### Hardware
+
+* NodeMCU
+* Push Button
+* 10K ohm resistor
+* RGB LED
+* Breadboard
+* Wires
+* Toy gun (optional)
+
+#### Software
+
+* Go
+* Arduino CLI
+* Make
+* BASH (for automating installing NodeMCU cores)
