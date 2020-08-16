@@ -14,6 +14,8 @@ struct communication {
 	const byte result  = 0x03;
 } packet;
 
+volatile bool canShoot = false;
+
 ICACHE_RAM_ATTR void playerShoot();
 void connect2AP();
 int handshake();
@@ -21,8 +23,12 @@ void readyUp();
 
 ICACHE_RAM_ATTR void playerShoot()
 {
-	client.write(packet.magic);
-	client.write(packet.fired);
+	if (canShoot) {
+		Serial.println("You have shot!");
+		client.write(packet.magic);
+		client.write(packet.fired);
+		canShoot = false;
+	}
 }
 
 void connect2AP() {
@@ -128,6 +134,8 @@ void readyUp() {
 		Serial.println("Ten paces!");
 		delay(1000);
 		Serial.println("Fire!");
+
+		canShoot = true;
 	}
 }
 
