@@ -20,6 +20,7 @@ ICACHE_RAM_ATTR void playerShoot();
 void connect2AP();
 int handshake();
 void readyUp();
+void duel();
 
 ICACHE_RAM_ATTR void playerShoot()
 {
@@ -139,6 +140,15 @@ void readyUp() {
 	}
 }
 
+void duel()
+{
+	while (client.read() != packet.magic);
+	if (client.read() == packet.result) {
+		Serial.print("The results are in: ");
+		Serial.println(client.read() ? "you won!" : "you lost!");
+	}
+}
+
 void setup()
 {
 	pinMode(PUSHBUTTON, INPUT);
@@ -159,4 +169,5 @@ void setup()
 void loop()
 {
 	readyUp(); // Wait for opponent to connect to server
+	duel();
 }
