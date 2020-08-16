@@ -7,3 +7,8 @@
 	<img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge">
 	</blockquote>
 </div>
+
+## Who Lives, Who Dies, Who Tells Your Story
+
+Now, who doesn't love them a good ol' fashioned duel!
+Sure is a shame they're outlawed... unless?
