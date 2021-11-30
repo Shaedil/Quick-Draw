@@ -9,7 +9,9 @@
 </div>
 
 ## Video Demo
+<div align="center">
 [![COVID-1819 Yeehaw](https://img.youtube.com/vi/rDi-mLLS_Jw/0.jpg)](https://www.youtube.com/watch?v=rDi-mLLS_Jw)
+</div>
 
 ## Who Lives, Who Dies, Who Tells Your Story
 
