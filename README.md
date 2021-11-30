@@ -8,6 +8,9 @@
 	</blockquote>
 </div>
 
+## Video Demo
+[![COVID-1819 Yeehaw](https://img.youtube.com/vi/rDi-mLLS_Jw&t/0.jpg)](https://www.youtube.com/watch?v=rDi-mLLS_Jw)
+
 ## Who Lives, Who Dies, Who Tells Your Story
 
 Now, who doesn't love them a good ol' fashioned duel!
